@@ -118,6 +118,7 @@ public class DefaultRepositorySystemSessionFactory
         configProps.putAll( request.getUserProperties() );
 
         session.setOffline( request.isOffline() );
+        session.setIgnoreArtifactDescriptorRepositories( request.isIgnorePomRepositories() );
         session.setChecksumPolicy( request.getGlobalChecksumPolicy() );
         if ( request.isNoSnapshotUpdates() )
         {

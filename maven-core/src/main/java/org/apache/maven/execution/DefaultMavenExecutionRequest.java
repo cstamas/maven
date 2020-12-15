@@ -62,6 +62,8 @@ public class DefaultMavenExecutionRequest
 
     private boolean offline = false;
 
+    private boolean ignorePomRepositories = false;
+
     private boolean interactiveMode = true;
 
     private boolean cacheTransferError = false;
@@ -175,6 +177,7 @@ public class DefaultMavenExecutionRequest
         copy.setLocalRepository( original.getLocalRepository() );
         copy.setLocalRepositoryPath( original.getLocalRepositoryPath() );
         copy.setOffline( original.isOffline() );
+        copy.setIgnorePomRepositories( original.isIgnorePomRepositories() );
         copy.setInteractiveMode( original.isInteractiveMode() );
         copy.setCacheNotFound( original.isCacheNotFound() );
         copy.setCacheTransferError( original.isCacheTransferError() );
@@ -439,6 +442,12 @@ public class DefaultMavenExecutionRequest
     public boolean isOffline()
     {
         return offline;
+    }
+
+    @Override
+    public boolean isIgnorePomRepositories()
+    {
+        return ignorePomRepositories;
     }
 
     @Override
@@ -734,6 +743,14 @@ public class DefaultMavenExecutionRequest
     public MavenExecutionRequest setOffline( boolean offline )
     {
         this.offline = offline;
+
+        return this;
+    }
+
+    @Override
+    public MavenExecutionRequest setIgnorePomRepositories( final boolean ignorePomRepositories )
+    {
+        this.ignorePomRepositories = ignorePomRepositories;
 
         return this;
     }

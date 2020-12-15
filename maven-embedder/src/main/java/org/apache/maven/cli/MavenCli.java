@@ -1361,6 +1361,7 @@ public class MavenCli
         disableOnPresentOption( commandLine, CLIManager.NON_RECURSIVE, request::setRecursive );
         enableOnPresentOption( commandLine, CLIManager.OFFLINE, request::setOffline );
         enableOnPresentOption( commandLine, CLIManager.UPDATE_SNAPSHOTS, request::setUpdateSnapshots );
+        enableOnPresentOption( commandLine, CLIManager.IGNORE_POM_REPOSITORIES, request::setIgnorePomRepositories );
         request.setGlobalChecksumPolicy( determineGlobalCheckPolicy( commandLine ) );
         request.setBaseDirectory( baseDirectory );
         request.setSystemProperties( cliRequest.systemProperties );

@@ -262,6 +262,11 @@ public interface MavenExecutionRequest
 
     boolean isOffline();
 
+    // ignore POM repositories
+    MavenExecutionRequest setIgnorePomRepositories( boolean ignorePomRepositories );
+
+    boolean isIgnorePomRepositories();
+
     boolean isCacheTransferError();
 
     MavenExecutionRequest setCacheTransferError( boolean cacheTransferError );
