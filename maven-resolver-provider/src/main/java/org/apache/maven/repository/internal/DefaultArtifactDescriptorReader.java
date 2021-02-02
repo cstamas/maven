@@ -33,7 +33,6 @@ import org.apache.maven.model.DistributionManagement;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Relocation;
 import org.apache.maven.model.building.ArtifactModelSource;
-import org.apache.maven.model.building.DefaultModelBuilderFactory;
 import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuilder;
 import org.apache.maven.model.building.ModelBuildingException;
@@ -65,8 +64,6 @@ import org.eclipse.aether.resolution.ArtifactResult;
 import org.eclipse.aether.resolution.VersionRequest;
 import org.eclipse.aether.resolution.VersionResolutionException;
 import org.eclipse.aether.resolution.VersionResult;
-import org.eclipse.aether.spi.locator.Service;
-import org.eclipse.aether.spi.locator.ServiceLocator;
 import org.eclipse.aether.transfer.ArtifactNotFoundException;
 
 /**
@@ -75,7 +72,7 @@ import org.eclipse.aether.transfer.ArtifactNotFoundException;
 @Named
 @Singleton
 public class DefaultArtifactDescriptorReader
-    implements ArtifactDescriptorReader, Service
+    implements ArtifactDescriptorReader
 {
     private RemoteRepositoryManager remoteRepositoryManager;
 
@@ -89,11 +86,6 @@ public class DefaultArtifactDescriptorReader
 
     private ModelBuilder modelBuilder;
 
-    public DefaultArtifactDescriptorReader()
-    {
-        // enable no-arg constructor
-    }
-
     @Inject
     DefaultArtifactDescriptorReader( RemoteRepositoryManager remoteRepositoryManager, VersionResolver versionResolver,
                                      VersionRangeResolver versionRangeResolver, ArtifactResolver artifactResolver,
@@ -105,20 +97,6 @@ public class DefaultArtifactDescriptorReader
         setArtifactResolver( artifactResolver );
         setModelBuilder( modelBuilder );
         setRepositoryEventDispatcher( repositoryEventDispatcher );
-    }
-
-    public void initService( ServiceLocator locator )
-    {
-        setRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
-        setVersionResolver( locator.getService( VersionResolver.class ) );
-        setVersionRangeResolver( locator.getService( VersionRangeResolver.class ) );
-        setArtifactResolver( locator.getService( ArtifactResolver.class ) );
-        modelBuilder = locator.getService( ModelBuilder.class );
-        if ( modelBuilder == null )
-        {
-            setModelBuilder( new DefaultModelBuilderFactory().newInstance() );
-        }
-        setRepositoryEventDispatcher( locator.getService( RepositoryEventDispatcher.class ) );
     }
 
     public DefaultArtifactDescriptorReader setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
