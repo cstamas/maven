@@ -54,11 +54,13 @@ class DefaultModelCache
         this.cache = session.getCache();
     }
 
+    @Override
     public Object get( String groupId, String artifactId, String version, String tag )
     {
         return cache.get( session, new Key( groupId, artifactId, version, tag ) );
     }
 
+    @Override
     public void put( String groupId, String artifactId, String version, String tag, Object data )
     {
         cache.put( session, new Key( groupId, artifactId, version, tag ), data );

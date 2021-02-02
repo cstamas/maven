@@ -70,41 +70,23 @@ public class DefaultVersionRangeResolver
 
     private static final String MAVEN_METADATA_XML = "maven-metadata.xml";
 
-    private MetadataResolver metadataResolver;
+    private final MetadataResolver metadataResolver;
 
-    private SyncContextFactory syncContextFactory;
+    private final SyncContextFactory syncContextFactory;
 
-    private RepositoryEventDispatcher repositoryEventDispatcher;
+    private final RepositoryEventDispatcher repositoryEventDispatcher;
 
     @Inject
     DefaultVersionRangeResolver( MetadataResolver metadataResolver, SyncContextFactory syncContextFactory,
                                  RepositoryEventDispatcher repositoryEventDispatcher )
     {
-        setMetadataResolver( metadataResolver );
-        setSyncContextFactory( syncContextFactory );
-        setRepositoryEventDispatcher( repositoryEventDispatcher );
-    }
-
-    public DefaultVersionRangeResolver setMetadataResolver( MetadataResolver metadataResolver )
-    {
         this.metadataResolver = Objects.requireNonNull( metadataResolver, "metadataResolver cannot be null" );
-        return this;
-    }
-
-    public DefaultVersionRangeResolver setSyncContextFactory( SyncContextFactory syncContextFactory )
-    {
         this.syncContextFactory = Objects.requireNonNull( syncContextFactory, "syncContextFactory cannot be null" );
-        return this;
-    }
-
-    public DefaultVersionRangeResolver setRepositoryEventDispatcher(
-        RepositoryEventDispatcher repositoryEventDispatcher )
-    {
         this.repositoryEventDispatcher = Objects.requireNonNull( repositoryEventDispatcher,
-            "repositoryEventDispatcher cannot be null" );
-        return this;
+                "repositoryEventDispatcher cannot be null" );
     }
 
+    @Override
     public VersionRangeResult resolveVersionRange( RepositorySystemSession session, VersionRangeRequest request )
         throws VersionRangeResolutionException
     {

@@ -74,72 +74,35 @@ import org.eclipse.aether.transfer.ArtifactNotFoundException;
 public class DefaultArtifactDescriptorReader
     implements ArtifactDescriptorReader
 {
-    private RemoteRepositoryManager remoteRepositoryManager;
+    private final RemoteRepositoryManager remoteRepositoryManager;
 
-    private VersionResolver versionResolver;
+    private final VersionResolver versionResolver;
 
-    private VersionRangeResolver versionRangeResolver;
+    private final VersionRangeResolver versionRangeResolver;
 
-    private ArtifactResolver artifactResolver;
+    private final ArtifactResolver artifactResolver;
 
-    private RepositoryEventDispatcher repositoryEventDispatcher;
+    private final RepositoryEventDispatcher repositoryEventDispatcher;
 
-    private ModelBuilder modelBuilder;
+    private final ModelBuilder modelBuilder;
 
     @Inject
     DefaultArtifactDescriptorReader( RemoteRepositoryManager remoteRepositoryManager, VersionResolver versionResolver,
                                      VersionRangeResolver versionRangeResolver, ArtifactResolver artifactResolver,
                                      ModelBuilder modelBuilder, RepositoryEventDispatcher repositoryEventDispatcher )
     {
-        setRemoteRepositoryManager( remoteRepositoryManager );
-        setVersionResolver( versionResolver );
-        setVersionRangeResolver( versionRangeResolver );
-        setArtifactResolver( artifactResolver );
-        setModelBuilder( modelBuilder );
-        setRepositoryEventDispatcher( repositoryEventDispatcher );
-    }
-
-    public DefaultArtifactDescriptorReader setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
-    {
         this.remoteRepositoryManager = Objects.requireNonNull( remoteRepositoryManager,
-            "remoteRepositoryManager cannot be null" );
-        return this;
-    }
-
-    public DefaultArtifactDescriptorReader setVersionResolver( VersionResolver versionResolver )
-    {
+                "remoteRepositoryManager cannot be null" );
         this.versionResolver = Objects.requireNonNull( versionResolver, "versionResolver cannot be null" );
-        return this;
-    }
-
-    /** @since 3.2.2 */
-    public DefaultArtifactDescriptorReader setVersionRangeResolver( VersionRangeResolver versionRangeResolver )
-    {
         this.versionRangeResolver =
-            Objects.requireNonNull( versionRangeResolver, "versionRangeResolver cannot be null" );
-        return this;
-    }
-
-    public DefaultArtifactDescriptorReader setArtifactResolver( ArtifactResolver artifactResolver )
-    {
+                Objects.requireNonNull( versionRangeResolver, "versionRangeResolver cannot be null" );
         this.artifactResolver = Objects.requireNonNull( artifactResolver, "artifactResolver cannot be null" );
-        return this;
-    }
-
-    public DefaultArtifactDescriptorReader setRepositoryEventDispatcher(
-        RepositoryEventDispatcher repositoryEventDispatcher )
-    {
         this.repositoryEventDispatcher = Objects.requireNonNull( repositoryEventDispatcher,
-            "repositoryEventDispatcher cannot be null" );
-        return this;
-    }
-
-    public DefaultArtifactDescriptorReader setModelBuilder( ModelBuilder modelBuilder )
-    {
+                "repositoryEventDispatcher cannot be null" );
         this.modelBuilder = Objects.requireNonNull( modelBuilder, "modelBuilder cannot be null" );
-        return this;
     }
 
+    @Override
     public ArtifactDescriptorResult readArtifactDescriptor( RepositorySystemSession session,
                                                             ArtifactDescriptorRequest request )
         throws ArtifactDescriptorException
