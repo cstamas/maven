@@ -30,6 +30,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.maven.RepositoryUtils;
+import org.apache.maven.extension.internal.CoreExportsProvider;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.PluginResolutionException;
@@ -83,6 +84,9 @@ public class DefaultPluginDependenciesResolver
 
     @Inject
     private RepositorySystem repoSystem;
+
+    @Inject
+    private CoreExportsProvider coreExportsProvider;
 
     private Artifact toArtifact( Plugin plugin, RepositorySystemSession session )
     {
@@ -167,14 +171,20 @@ public class DefaultPluginDependenciesResolver
         }
 
         DependencyFilter collectionFilter = new ScopeDependencyFilter( "provided", "test" );
-        DependencyFilter resolutionFilter = AndDependencyFilter.newInstance( collectionFilter, dependencyFilter );
+        DependencyFilter pluginFilter = new PluginDependencyFilter( coreExportsProvider.get().getExportedArtifacts() );
+        DependencyFilter resolutionFilter = AndDependencyFilter.newInstance(
+            AndDependencyFilter.newInstance( collectionFilter, dependencyFilter ),
+            pluginFilter
+        );
 
         DependencyNode node;
 
         try
         {
-            DependencySelector selector =
-                AndDependencySelector.newInstance( session.getDependencySelector(), new WagonExcluder() );
+            DependencySelector selector = AndDependencySelector.newInstance(
+                AndDependencySelector.newInstance( session.getDependencySelector(), new WagonExcluder() ),
+                new PluginDependencySelector( coreExportsProvider.get().getExportedArtifacts() )
+            );
 
             DefaultRepositorySystemSession pluginSession = new DefaultRepositorySystemSession( session );
             pluginSession.setDependencySelector( selector );
