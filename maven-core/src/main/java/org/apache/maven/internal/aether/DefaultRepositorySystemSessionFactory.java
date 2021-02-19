@@ -51,6 +51,7 @@ import org.eclipse.aether.resolution.ResolutionErrorPolicy;
 import org.eclipse.aether.spi.localrepo.LocalRepositoryManagerFactory;
 import org.eclipse.aether.transform.FileTransformer;
 import org.eclipse.aether.transform.TransformException;
+import org.eclipse.aether.util.graph.version.HighestVersionFilter;
 import org.eclipse.aether.util.repository.AuthenticationBuilder;
 import org.eclipse.aether.util.repository.DefaultAuthenticationSelector;
 import org.eclipse.aether.util.repository.DefaultMirrorSelector;
@@ -105,6 +106,7 @@ public class DefaultRepositorySystemSessionFactory
     @Inject
     MavenRepositorySystem mavenRepositorySystem;
 
+    @SuppressWarnings( "checkstyle:methodlength" )
     public DefaultRepositorySystemSession newRepositorySession( MavenExecutionRequest request )
     {
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
@@ -141,6 +143,10 @@ public class DefaultRepositorySystemSessionFactory
             new SimpleResolutionErrorPolicy( errorPolicy, errorPolicy | ResolutionErrorPolicy.CACHE_NOT_FOUND ) );
 
         session.setArtifactTypeRegistry( RepositoryUtils.newArtifactTypeRegistry( artifactHandlerManager ) );
+        if ( Boolean.parseBoolean( System.getProperty( "versionFilter", "" ) ) )
+        {
+            session.setVersionFilter( new HighestVersionFilter() );
+        }
 
         LocalRepository localRepo = new LocalRepository( request.getLocalRepository().getBasedir() );
 
