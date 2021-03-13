@@ -1414,11 +1414,15 @@ public class DefaultModelBuilder
             final ModelBuildingResult importResult;
             try
             {
-                ModelBuildingRequest importRequest = new DefaultModelBuildingRequest( request )
-                        .setTwoPhaseBuilding( false )
-                        .setValidationLevel( ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL )
-                        .setModelSource( importSource )
-                        .setModelResolver( modelResolver.newCopy() );
+                ModelBuildingRequest importRequest = new DefaultModelBuildingRequest();
+                importRequest.setValidationLevel( ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL );
+                importRequest.setModelCache( request.getModelCache() );
+                importRequest.setSystemProperties( request.getSystemProperties() );
+                importRequest.setUserProperties( request.getUserProperties() );
+                importRequest.setLocationTracking( request.isLocationTracking() );
+
+                importRequest.setModelSource( importSource );
+                importRequest.setModelResolver( modelResolver.newCopy() );
 
                 importResult = build( importRequest, importIds );
             }
@@ -1567,13 +1571,16 @@ public class DefaultModelBuilder
                 public Model getRawModel( String gId, String aId )
                 {
                     return context.modelByGA.computeIfAbsent( new DefaultTransformerContext.GAKey( gId, aId ),
-                                                              k -> findRawModel( gId, aId ) );
+                                                              k -> new DefaultTransformerContext.Holder() )
+                            .computeIfAbsent( () -> findRawModel( gId, aId ) );
                 }
 
                 @Override
                 public Model getRawModel( Path path )
                 {
-                    return context.modelByPath.computeIfAbsent( path, k -> findRawModel( path ) );
+                    return context.modelByPath.computeIfAbsent( path,
+                                                                k -> new DefaultTransformerContext.Holder() )
+                            .computeIfAbsent( () -> findRawModel( path ) );
                 }
 
                 private Model findRawModel( String groupId, String artifactId )
