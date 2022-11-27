@@ -304,6 +304,10 @@ public class DefaultModelBuilder
             profileActivationContext.setUserProperties( profileProps );
         }
 
+        // read and validate raw model
+        inputModel = readModel( request.getModelSource(), request.getPomFile(), request, problems );
+        request.setRawModel( inputModel );
+
         problems.setRootModel( inputModel );
 
         ModelData resultData = new ModelData( request.getModelSource(), inputModel );
