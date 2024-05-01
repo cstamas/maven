@@ -61,6 +61,7 @@ public class BootstrapCoreExtensionManager {
     public static final String STRATEGY_PARENT_FIRST = "parent-first";
     public static final String STRATEGY_PLUGIN = "plugin";
     public static final String STRATEGY_SELF_FIRST = "self-first";
+    public static final String STRATEGY_CORE = "core";
 
     private final Logger log;
 
@@ -124,20 +125,23 @@ public class BootstrapCoreExtensionManager {
     private CoreExtensionEntry createExtension(CoreExtension extension, List<Artifact> artifacts) throws Exception {
         String realmId = "coreExtension>" + extension.getGroupId() + ":" + extension.getArtifactId() + ":"
                 + extension.getVersion();
-        final ClassRealm realm = classWorld.newRealm(realmId, null);
+        ClassRealm realm = classWorld.newRealm(realmId, null);
         Set<String> providedArtifacts = Collections.emptySet();
         String classLoadingStrategy = extension.getClassLoadingStrategy();
         if (STRATEGY_PARENT_FIRST.equals(classLoadingStrategy)) {
             realm.importFrom(parentRealm, "");
         } else if (STRATEGY_PLUGIN.equals(classLoadingStrategy)) {
-            coreExports.getExportedPackages().forEach((p, cl) -> realm.importFrom(cl, p));
+            final ClassRealm r = realm;
+            coreExports.getExportedPackages().forEach((p, cl) -> r.importFrom(cl, p));
             providedArtifacts = coreExports.getExportedArtifacts();
         } else if (STRATEGY_SELF_FIRST.equals(classLoadingStrategy)) {
             realm.setParentRealm(parentRealm);
+        } else if (STRATEGY_CORE.equals(classLoadingStrategy)) {
+            realm = parentRealm;
         } else {
             throw new IllegalArgumentException("Unsupported class-loading strategy '"
                     + classLoadingStrategy + "'. Supported values are: " + STRATEGY_PARENT_FIRST
-                    + ", " + STRATEGY_PLUGIN + " and " + STRATEGY_SELF_FIRST);
+                    + ", " + STRATEGY_PLUGIN + ", " + STRATEGY_SELF_FIRST + " and " + STRATEGY_CORE);
         }
         log.debug("Populating class realm " + realm.getId());
         for (Artifact artifact : artifacts) {

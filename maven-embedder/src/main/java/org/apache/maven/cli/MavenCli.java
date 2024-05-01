@@ -658,6 +658,9 @@ public class MavenCli {
         container.setLoggerManager(plexusLoggerManager);
 
         for (CoreExtensionEntry extension : extensions) {
+            if (extension.getClassRealm() == coreRealm) {
+                continue;
+            }
             container.discoverComponents(
                     extension.getClassRealm(),
                     new SessionScopeModule(container),
