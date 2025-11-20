@@ -39,6 +39,7 @@ More information can be found on [Apache Maven Homepage][maven-home].
 Questions related to the usage of Maven should be posted on
 the [Maven User List][users-list].
 
+
 Where can I get the latest release?
 -----------------------------------
 You can download the release source from our [download page][maven-download].
