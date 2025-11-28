@@ -143,7 +143,7 @@ under the License.
     <project.build.outputTimestamp>2025-06-24T20:18:00Z</project.build.outputTimestamp>
     <!-- various versions -->
     <asmVersion>9.9</asmVersion>
-    <byteBuddyVersion>1.18.1</byteBuddyVersion>
+    <byteBuddyVersion>1.18.2</byteBuddyVersion>
     <classWorldsVersion>2.9.0</classWorldsVersion>
     <commonsCliVersion>1.11.0</commonsCliVersion>
     <domtripVersion>0.4.0</domtripVersion>
@@ -720,7 +720,7 @@ under the License.
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
-          <version>0.24.2</version>
+          <version>0.25.0</version>
           <executions>
             <execution>
               <goals>
@@ -1017,27 +1017,6 @@ under the License.
                   <jbangargs>
                     <arg>--verbose</arg>
                   </jbangargs>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <inherited>false</inherited>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <phase>pre-site</phase>
-                <configuration>
-                  <target>
-                    <!-- directory should be created by org.eclipse.aether.tools.CollectConfiguration -->
-                    <!-- TODO: remove with next version of resolver-tools -->
-                    <mkdir dir="${project.build.directory}/generated-site/markdown" />
-                    <mkdir dir="${project.build.directory}/generated-site/resources" />
-                  </target>
                 </configuration>
               </execution>
             </executions>
