@@ -62,6 +62,7 @@ import org.eclipse.aether.internal.impl.DefaultPathProcessor;
 import org.eclipse.aether.internal.impl.DefaultRemoteRepositoryManager;
 import org.eclipse.aether.internal.impl.DefaultRepositoryConnectorProvider;
 import org.eclipse.aether.internal.impl.DefaultRepositoryEventDispatcher;
+import org.eclipse.aether.internal.impl.DefaultRepositoryKeyFunctionFactory;
 import org.eclipse.aether.internal.impl.DefaultRepositoryLayoutProvider;
 import org.eclipse.aether.internal.impl.DefaultRepositorySystem;
 import org.eclipse.aether.internal.impl.DefaultRepositorySystemLifecycle;
@@ -91,6 +92,7 @@ import org.eclipse.aether.internal.impl.collect.df.DfDependencyCollector;
 import org.eclipse.aether.internal.impl.filter.DefaultRemoteRepositoryFilterManager;
 import org.eclipse.aether.internal.impl.filter.FilteringPipelineRepositoryConnectorFactory;
 import org.eclipse.aether.internal.impl.filter.GroupIdRemoteRepositoryFilterSource;
+import org.eclipse.aether.internal.impl.filter.PrefixesLockingInhibitorFactory;
 import org.eclipse.aether.internal.impl.filter.PrefixesRemoteRepositoryFilterSource;
 import org.eclipse.aether.internal.impl.offline.OfflinePipelineRepositoryConnectorFactory;
 import org.eclipse.aether.internal.impl.synccontext.DefaultSyncContextFactory;
@@ -126,6 +128,8 @@ import org.eclipse.aether.spi.connector.transport.http.ChecksumExtractorStrategy
 import org.eclipse.aether.spi.io.ChecksumProcessor;
 import org.eclipse.aether.spi.io.PathProcessor;
 import org.eclipse.aether.spi.localrepo.LocalRepositoryManagerFactory;
+import org.eclipse.aether.spi.locking.LockingInhibitorFactory;
+import org.eclipse.aether.spi.remoterepo.RepositoryKeyFunctionFactory;
 import org.eclipse.aether.spi.resolution.ArtifactResolverPostProcessor;
 import org.eclipse.aether.spi.synccontext.SyncContextFactory;
 import org.eclipse.aether.spi.validator.ValidatorFactory;
@@ -170,6 +174,11 @@ public class RepositorySystemSupplier {
             UpdatePolicyAnalyzer updatePolicyAnalyzer,
             PathProcessor pathProcessor) {
         return new DefaultUpdateCheckManager(trackingFileManager, updatePolicyAnalyzer, pathProcessor);
+    }
+
+    @Provides
+    static RepositoryKeyFunctionFactory newRepositoryKeyFunctionFactory() {
+        return new DefaultRepositoryKeyFunctionFactory();
     }
 
     @Provides
@@ -253,18 +262,25 @@ public class RepositorySystemSupplier {
     @Provides
     @Named(GroupIdRemoteRepositoryFilterSource.NAME)
     static GroupIdRemoteRepositoryFilterSource newGroupIdRemoteRepositoryFilterSource(
-            RepositorySystemLifecycle repositorySystemLifecycle, PathProcessor pathProcessor) {
-        return new GroupIdRemoteRepositoryFilterSource(repositorySystemLifecycle, pathProcessor);
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory,
+            RepositorySystemLifecycle repositorySystemLifecycle,
+            PathProcessor pathProcessor) {
+        return new GroupIdRemoteRepositoryFilterSource(
+                repositoryKeyFunctionFactory, repositorySystemLifecycle, pathProcessor);
     }
 
     @Provides
     @Named(PrefixesRemoteRepositoryFilterSource.NAME)
     static PrefixesRemoteRepositoryFilterSource newPrefixesRemoteRepositoryFilterSource(
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory,
             MetadataResolver metadataResolver,
             RemoteRepositoryManager remoteRepositoryManager,
             RepositoryLayoutProvider repositoryLayoutProvider) {
         return new PrefixesRemoteRepositoryFilterSource(
-                () -> metadataResolver, () -> remoteRepositoryManager, repositoryLayoutProvider);
+                repositoryKeyFunctionFactory,
+                () -> metadataResolver,
+                () -> remoteRepositoryManager,
+                repositoryLayoutProvider);
     }
 
     @Provides
@@ -317,8 +333,11 @@ public class RepositorySystemSupplier {
 
     @Provides
     static RemoteRepositoryManager newRemoteRepositoryManager(
-            UpdatePolicyAnalyzer updatePolicyAnalyzer, ChecksumPolicyProvider checksumPolicyProvider) {
-        return new DefaultRemoteRepositoryManager(updatePolicyAnalyzer, checksumPolicyProvider);
+            UpdatePolicyAnalyzer updatePolicyAnalyzer,
+            ChecksumPolicyProvider checksumPolicyProvider,
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory) {
+        return new DefaultRemoteRepositoryManager(
+                updatePolicyAnalyzer, checksumPolicyProvider, repositoryKeyFunctionFactory);
     }
 
     @Provides
@@ -327,11 +346,18 @@ public class RepositorySystemSupplier {
     }
 
     @Provides
+    @Named(PrefixesLockingInhibitorFactory.NAME)
+    static LockingInhibitorFactory newPrefixesLockingInhibitorFactory() {
+        return new PrefixesLockingInhibitorFactory();
+    }
+
+    @Provides
     static NamedLockFactoryAdapterFactory newNamedLockFactoryAdapterFactory(
             Map<String, NamedLockFactory> factories,
             Map<String, NameMapper> nameMappers,
+            Map<String, LockingInhibitorFactory> lockingInhibitorFactories,
             RepositorySystemLifecycle lifecycle) {
-        return new NamedLockFactoryAdapterFactoryImpl(factories, nameMappers, lifecycle);
+        return new NamedLockFactoryAdapterFactoryImpl(factories, nameMappers, lockingInhibitorFactories, lifecycle);
     }
 
     @Provides
@@ -520,16 +546,17 @@ public class RepositorySystemSupplier {
     static EnhancedLocalRepositoryManagerFactory newEnhancedLocalRepositoryManagerFactory(
             LocalPathComposer localPathComposer,
             TrackingFileManager trackingFileManager,
-            LocalPathPrefixComposerFactory localPathPrefixComposerFactory) {
+            LocalPathPrefixComposerFactory localPathPrefixComposerFactory,
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory) {
         return new EnhancedLocalRepositoryManagerFactory(
-                localPathComposer, trackingFileManager, localPathPrefixComposerFactory);
+                localPathComposer, trackingFileManager, localPathPrefixComposerFactory, repositoryKeyFunctionFactory);
     }
 
     @Provides
     @Named(SimpleLocalRepositoryManagerFactory.NAME)
     static SimpleLocalRepositoryManagerFactory newSimpleLocalRepositoryManagerFactory(
-            LocalPathComposer localPathComposer) {
-        return new SimpleLocalRepositoryManagerFactory(localPathComposer);
+            LocalPathComposer localPathComposer, RepositoryKeyFunctionFactory repositoryKeyFunctionFactory) {
+        return new SimpleLocalRepositoryManagerFactory(localPathComposer, repositoryKeyFunctionFactory);
     }
 
     @Provides
@@ -538,8 +565,9 @@ public class RepositorySystemSupplier {
     }
 
     @Provides
-    static LocalPathPrefixComposerFactory newLocalPathPrefixComposerFactory() {
-        return new DefaultLocalPathPrefixComposerFactory();
+    static LocalPathPrefixComposerFactory newLocalPathPrefixComposerFactory(
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory) {
+        return new DefaultLocalPathPrefixComposerFactory(repositoryKeyFunctionFactory);
     }
 
     @Provides
@@ -579,17 +607,22 @@ public class RepositorySystemSupplier {
     @Provides
     @Named(SparseDirectoryTrustedChecksumsSource.NAME)
     static SparseDirectoryTrustedChecksumsSource newSparseDirectoryTrustedChecksumsSource(
-            ChecksumProcessor checksumProcessor, LocalPathComposer localPathComposer) {
-        return new SparseDirectoryTrustedChecksumsSource(checksumProcessor, localPathComposer);
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory,
+            ChecksumProcessor checksumProcessor,
+            LocalPathComposer localPathComposer) {
+        return new SparseDirectoryTrustedChecksumsSource(
+                repositoryKeyFunctionFactory, checksumProcessor, localPathComposer);
     }
 
     @Provides
     @Named(SummaryFileTrustedChecksumsSource.NAME)
     static SummaryFileTrustedChecksumsSource newSummaryFileTrustedChecksumsSource(
+            RepositoryKeyFunctionFactory repositoryKeyFunctionFactory,
             LocalPathComposer localPathComposer,
             RepositorySystemLifecycle repositorySystemLifecycle,
             PathProcessor pathProcessor) {
-        return new SummaryFileTrustedChecksumsSource(localPathComposer, repositorySystemLifecycle, pathProcessor);
+        return new SummaryFileTrustedChecksumsSource(
+                repositoryKeyFunctionFactory, localPathComposer, repositorySystemLifecycle, pathProcessor);
     }
 
     @Provides
