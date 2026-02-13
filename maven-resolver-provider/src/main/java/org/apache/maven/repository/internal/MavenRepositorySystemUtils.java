@@ -24,11 +24,6 @@ import org.eclipse.aether.collection.DependencyGraphTransformer;
 import org.eclipse.aether.collection.DependencyManager;
 import org.eclipse.aether.collection.DependencySelector;
 import org.eclipse.aether.collection.DependencyTraverser;
-import org.eclipse.aether.impl.ArtifactDescriptorReader;
-import org.eclipse.aether.impl.DefaultServiceLocator;
-import org.eclipse.aether.impl.MetadataGeneratorFactory;
-import org.eclipse.aether.impl.VersionRangeResolver;
-import org.eclipse.aether.impl.VersionResolver;
 import org.eclipse.aether.util.artifact.DefaultArtifactTypeRegistry;
 import org.eclipse.aether.util.graph.manager.ClassicDependencyManager;
 import org.eclipse.aether.util.graph.selector.AndDependencySelector;
@@ -59,32 +54,15 @@ public final class MavenRepositorySystemUtils {
     }
 
     /**
-     * Creates a new service locator that already knows about all service implementations included in this library. To
-     * acquire a complete repository system, clients need to add some repository connectors for remote transfers.
-     *
-     * @return The new service locator, never {@code null}.
-     * @deprecated This method is deprecated along with {@link DefaultServiceLocator} (since Maven Resolver 1.7.0).
-     */
-    @Deprecated
-    public static DefaultServiceLocator newServiceLocator() {
-        DefaultServiceLocator locator = new DefaultServiceLocator();
-        locator.addService(ArtifactDescriptorReader.class, DefaultArtifactDescriptorReader.class);
-        locator.addService(VersionResolver.class, DefaultVersionResolver.class);
-        locator.addService(VersionRangeResolver.class, DefaultVersionRangeResolver.class);
-        locator.addService(MetadataGeneratorFactory.class, SnapshotMetadataGeneratorFactory.class);
-        locator.addService(MetadataGeneratorFactory.class, VersionsMetadataGeneratorFactory.class);
-        locator.addService(ModelCacheFactory.class, DefaultModelCacheFactory.class);
-        return locator;
-    }
-
-    /**
      * Creates a new Maven-like repository system session by initializing the session with values typical for
      * Maven-based resolution. In more detail, this method configures settings relevant for the processing of dependency
      * graphs, most other settings remain at their generic default value. Use the various setters to further configure
      * the session with authentication, mirror, proxy and other information required for your environment.
      *
      * @return The new repository system session, never {@code null}.
+     * @deprecated Use {@link org.eclipse.aether.supplier.SessionBuilderSupplier} instead.
      */
+    @Deprecated
     public static DefaultRepositorySystemSession newSession() {
         DefaultRepositorySystemSession session = new DefaultRepositorySystemSession();
 
