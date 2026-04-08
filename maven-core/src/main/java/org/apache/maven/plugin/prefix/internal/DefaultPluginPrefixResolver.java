@@ -102,7 +102,7 @@ public class DefaultPluginPrefixResolver implements PluginPrefixResolver {
                         LinkedHashMap::new,
                         Collectors.mapping(Plugin::getArtifactId, Collectors.toSet())));
         request.getPluginGroups().forEach(g -> candidates.put(g, null));
-        PluginPrefixResult result = resolveFromRepository(request, candidates);
+        PluginPrefixResult result = resolveFromRepository(request, candidates, false);
 
         // If we haven't been able to resolve the plugin from the repository,
         // as a last resort, we go through all declared plugins, load them
@@ -112,6 +112,10 @@ public class DefaultPluginPrefixResolver implements PluginPrefixResolver {
             if (result == null && management != null) {
                 result = resolveFromProject(request, management.getPlugins());
             }
+        }
+
+        if (result == null) {
+            result = resolveFromRepository(request, candidates, true);
         }
 
         if (result == null) {
@@ -152,7 +156,7 @@ public class DefaultPluginPrefixResolver implements PluginPrefixResolver {
     }
 
     private PluginPrefixResult resolveFromRepository(
-            PluginPrefixRequest request, LinkedHashMap<String, Set<String>> candidates) {
+            PluginPrefixRequest request, LinkedHashMap<String, Set<String>> candidates, boolean force) {
         RequestTrace trace = RequestTrace.newChild(null, request);
 
         List<MetadataRequest> requests = new ArrayList<>();
@@ -181,7 +185,7 @@ public class DefaultPluginPrefixResolver implements PluginPrefixResolver {
 
         // second try, refetch all (possibly outdated) metadata that wasn't updated in the first attempt
 
-        if (!request.getRepositorySession().isOffline() && !requests.isEmpty()) {
+        if (force && !request.getRepositorySession().isOffline() && !requests.isEmpty()) {
             DefaultRepositorySystemSession session = new DefaultRepositorySystemSession(request.getRepositorySession());
             session.setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_ALWAYS);
 
