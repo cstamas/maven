@@ -109,7 +109,11 @@ public class CLIManager {
 
     public static final String IGNORE_TRANSITIVE_REPOSITORIES = "itr";
 
-    private static final String RAW_STREAMS = "raw-streams";
+    public static final String RAW_STREAMS = "raw-streams";
+
+    public static final String ARTIFACTS_UPDATE_POLICY = "artifacts-update-policy";
+
+    public static final String METADATA_UPDATE_POLICY = "metadata-update-policy";
 
     protected Options options;
 
@@ -268,6 +272,16 @@ public class CLIManager {
         options.addOption(Option.builder(IGNORE_TRANSITIVE_REPOSITORIES)
                 .longOpt("ignore-transitive-repositories")
                 .desc("If set, Maven will ignore remote repositories introduced by transitive dependencies.")
+                .build());
+        options.addOption(Option.builder()
+                .longOpt(ARTIFACTS_UPDATE_POLICY)
+                .hasArg(true)
+                .desc("The update policy to apply onto artifacts ('always', 'daily', 'never')")
+                .build());
+        options.addOption(Option.builder()
+                .longOpt(METADATA_UPDATE_POLICY)
+                .hasArg(true)
+                .desc("The update policy to apply onto metadata ('always', 'daily', 'never')")
                 .build());
 
         // Adding this back in for compatibility with the verifier that hard codes this option.
