@@ -18,14 +18,13 @@
  */
 package org.apache.maven.plugin;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.execution.MojoExecutionListener;

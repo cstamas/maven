@@ -18,8 +18,6 @@
  */
 package org.apache.maven.project;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.repository.layout.DefaultRepositoryLayout;
 import org.apache.maven.bridge.MavenRepositorySystem;
 import org.apache.maven.model.Model;

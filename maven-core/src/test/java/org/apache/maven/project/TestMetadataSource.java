@@ -18,11 +18,10 @@
  */
 package org.apache.maven.project;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.List;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;
 import org.apache.maven.artifact.metadata.ResolutionGroup;

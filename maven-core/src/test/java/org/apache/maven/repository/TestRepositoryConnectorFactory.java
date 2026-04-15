@@ -18,9 +18,8 @@
  */
 package org.apache.maven.repository;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.spi.connector.RepositoryConnector;

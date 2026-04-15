@@ -18,14 +18,13 @@
  */
 package org.apache.maven.model.path;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Reporting;

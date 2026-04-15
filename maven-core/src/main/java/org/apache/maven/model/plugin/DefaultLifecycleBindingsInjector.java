@@ -18,10 +18,6 @@
  */
 package org.apache.maven.model.plugin;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,6 +25,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;

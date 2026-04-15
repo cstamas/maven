@@ -27,6 +27,6 @@ public class MavenSlf4jFriend {
      * Reset Slf4j internal state.
      */
     public static void reset() {
-        LoggerFactory.reset();
+        // LoggerFactory.reset();
     }
 }

@@ -18,9 +18,6 @@
  */
 package org.apache.maven.repository.internal.relocation;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +25,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.apache.maven.repository.internal.MavenArtifactRelocationSource;
 import org.apache.maven.repository.internal.RelocatedArtifact;

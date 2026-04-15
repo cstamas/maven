@@ -18,10 +18,9 @@
  */
 package org.apache.maven.artifact.transform;
 
-import javax.inject.Inject;
-
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.repository.legacy.resolver.transform.ArtifactTransformationManager;
 import org.apache.maven.repository.legacy.resolver.transform.LatestArtifactTransformation;
 import org.apache.maven.repository.legacy.resolver.transform.ReleaseArtifactTransformation;

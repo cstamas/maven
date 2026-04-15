@@ -18,8 +18,7 @@
  */
 package org.apache.maven.repository.metadata;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

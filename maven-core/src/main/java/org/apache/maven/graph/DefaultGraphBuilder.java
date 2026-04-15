@@ -18,10 +18,6 @@
  */
 package org.apache.maven.graph;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +29,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.DefaultMaven;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.ProjectCycleException;

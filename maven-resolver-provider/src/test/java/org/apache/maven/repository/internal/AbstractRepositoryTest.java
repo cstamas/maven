@@ -18,10 +18,9 @@
  */
 package org.apache.maven.repository.internal;
 
-import javax.inject.Inject;
-
 import java.net.MalformedURLException;
 
+import jakarta.inject.Inject;
 import org.apache.maven.repository.internal.util.ConsoleRepositoryListener;
 import org.apache.maven.repository.internal.util.ConsoleTransferListener;
 import org.eclipse.aether.DefaultRepositorySystemSession;

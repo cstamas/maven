@@ -18,8 +18,6 @@
  */
 package org.apache.maven.lifecycle.internal;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +25,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import jakarta.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;

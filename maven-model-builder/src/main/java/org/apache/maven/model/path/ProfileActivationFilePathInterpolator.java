@@ -18,13 +18,12 @@
  */
 package org.apache.maven.model.path;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.nio.file.Path;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.ActivationFile;
 import org.apache.maven.model.profile.ProfileActivationContext;
 import org.apache.maven.model.root.RootLocator;

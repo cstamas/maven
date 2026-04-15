@@ -18,11 +18,10 @@
  */
 package org.apache.maven.artifact.handler;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.codehaus.plexus.util.FileUtils;

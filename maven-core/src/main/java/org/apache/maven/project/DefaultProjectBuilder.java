@@ -18,10 +18,6 @@
  */
 package org.apache.maven.project;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap;
@@ -36,6 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.InvalidArtifactRTException;

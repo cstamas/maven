@@ -18,12 +18,11 @@
  */
 package org.apache.maven.jline;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.message.MessageBuilder;
 import org.apache.maven.message.MessageBuilderFactory;
 import org.eclipse.sisu.Priority;

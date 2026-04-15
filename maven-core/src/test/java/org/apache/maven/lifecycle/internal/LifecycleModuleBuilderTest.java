@@ -18,13 +18,12 @@
  */
 package org.apache.maven.lifecycle.internal;
 
-import javax.inject.Inject;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.DefaultMavenExecutionResult;

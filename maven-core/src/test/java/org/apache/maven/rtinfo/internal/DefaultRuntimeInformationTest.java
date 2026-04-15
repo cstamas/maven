@@ -18,8 +18,7 @@
  */
 package org.apache.maven.rtinfo.internal;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.apache.maven.rtinfo.RuntimeInformation;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.junit.jupiter.api.Test;

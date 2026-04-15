@@ -18,9 +18,8 @@
  */
 package org.apache.maven.model.plugin;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.ReportPlugin;
 import org.apache.maven.model.ReportSet;

@@ -18,8 +18,7 @@
  */
 package org.apache.maven.lifecycle;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.apache.maven.lifecycle.internal.LifecycleDependencyResolver;
 import org.apache.maven.lifecycle.internal.LifecycleExecutionPlanCalculator;
 import org.apache.maven.lifecycle.internal.LifecycleModuleBuilder;

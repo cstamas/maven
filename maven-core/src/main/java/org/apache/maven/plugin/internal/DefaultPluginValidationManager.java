@@ -18,9 +18,6 @@
  */
 package org.apache.maven.plugin.internal;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -38,6 +35,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.eventspy.AbstractEventSpy;
 import org.apache.maven.execution.ExecutionEvent;
 import org.apache.maven.execution.MavenSession;

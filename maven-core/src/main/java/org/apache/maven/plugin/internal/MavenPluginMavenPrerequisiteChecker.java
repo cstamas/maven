@@ -18,10 +18,9 @@
  */
 package org.apache.maven.plugin.internal;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.plugin.MavenPluginPrerequisitesChecker;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.rtinfo.RuntimeInformation;

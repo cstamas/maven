@@ -18,13 +18,12 @@
  */
 package org.apache.maven.repository.legacy;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;

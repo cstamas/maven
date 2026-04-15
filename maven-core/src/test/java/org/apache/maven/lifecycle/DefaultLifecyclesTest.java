@@ -18,10 +18,9 @@
  */
 package org.apache.maven.lifecycle;
 
-import javax.inject.Inject;
-
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.junit.jupiter.api.Test;
 

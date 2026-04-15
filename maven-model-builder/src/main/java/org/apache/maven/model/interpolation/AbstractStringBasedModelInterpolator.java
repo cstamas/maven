@@ -18,8 +18,6 @@
  */
 package org.apache.maven.model.interpolation;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
+import jakarta.inject.Inject;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.model.building.ModelProblemCollector;

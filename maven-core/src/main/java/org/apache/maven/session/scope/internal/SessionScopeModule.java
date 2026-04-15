@@ -18,10 +18,9 @@
  */
 package org.apache.maven.session.scope.internal;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.google.inject.AbstractModule;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.maven.SessionScoped;
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.PlexusContainer;

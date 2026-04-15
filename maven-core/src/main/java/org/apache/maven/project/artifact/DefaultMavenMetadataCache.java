@@ -18,9 +18,6 @@
  */
 package org.apache.maven.project.artifact;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +29,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.metadata.ResolutionGroup;

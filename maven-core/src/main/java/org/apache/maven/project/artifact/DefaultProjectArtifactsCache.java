@@ -18,9 +18,6 @@
  */
 package org.apache.maven.project.artifact;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +29,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.lifecycle.LifecycleExecutionException;

@@ -18,10 +18,10 @@
  */
 package org.apache.maven.model.locator;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
+
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * Locates a POM file within a project base directory.

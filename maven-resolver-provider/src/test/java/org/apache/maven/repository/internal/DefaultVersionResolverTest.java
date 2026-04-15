@@ -18,8 +18,7 @@
  */
 package org.apache.maven.repository.internal;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;

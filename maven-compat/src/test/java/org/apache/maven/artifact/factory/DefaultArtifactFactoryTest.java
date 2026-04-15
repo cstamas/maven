@@ -18,8 +18,7 @@
  */
 package org.apache.maven.artifact.factory;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.codehaus.plexus.testing.PlexusTest;

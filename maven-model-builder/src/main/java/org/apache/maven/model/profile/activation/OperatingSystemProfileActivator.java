@@ -18,11 +18,10 @@
  */
 package org.apache.maven.model.profile.activation;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.Locale;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.ActivationOS;
 import org.apache.maven.model.Profile;

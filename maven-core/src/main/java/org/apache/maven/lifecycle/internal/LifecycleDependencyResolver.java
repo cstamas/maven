@@ -18,9 +18,6 @@
  */
 package org.apache.maven.lifecycle.internal;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +29,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;

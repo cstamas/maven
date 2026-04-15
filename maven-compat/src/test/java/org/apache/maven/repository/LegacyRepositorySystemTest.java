@@ -18,12 +18,11 @@
  */
 package org.apache.maven.repository;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;

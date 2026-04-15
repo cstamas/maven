@@ -18,8 +18,8 @@
  */
 package org.apache.maven.lifecycle.providers.lifecycle;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * Default lifecycle provider.

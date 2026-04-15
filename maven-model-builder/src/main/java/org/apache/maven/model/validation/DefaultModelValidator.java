@@ -18,10 +18,6 @@
  */
 package org.apache.maven.model.validation;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Deque;
@@ -41,6 +37,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.BuildBase;

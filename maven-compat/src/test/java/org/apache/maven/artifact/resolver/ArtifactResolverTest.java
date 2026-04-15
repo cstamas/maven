@@ -18,9 +18,6 @@
  */
 package org.apache.maven.artifact.resolver;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +26,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.maven.artifact.AbstractArtifactComponentTest;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;

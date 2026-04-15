@@ -18,8 +18,7 @@
  */
 package org.apache.maven.repository.metadata;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.ArtifactScopeEnum;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.testing.PlexusTest;

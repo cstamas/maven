@@ -18,14 +18,13 @@
  */
 package org.apache.maven.cli.configuration;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.commons.cli.CommandLine;
 import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.bridge.MavenRepositorySystem;

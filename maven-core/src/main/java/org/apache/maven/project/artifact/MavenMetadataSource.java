@@ -18,11 +18,6 @@
  */
 package org.apache.maven.project.artifact;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +31,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;

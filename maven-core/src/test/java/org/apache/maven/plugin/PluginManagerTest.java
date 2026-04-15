@@ -18,10 +18,9 @@
  */
 package org.apache.maven.plugin;
 
-import javax.inject.Inject;
-
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.DefaultRepositoryRequest;

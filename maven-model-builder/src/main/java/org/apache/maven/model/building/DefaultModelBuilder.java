@@ -18,10 +18,6 @@
  */
 package org.apache.maven.model.building;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +34,9 @@ import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
 import org.apache.maven.artifact.versioning.VersionRange;

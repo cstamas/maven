@@ -18,14 +18,13 @@
  */
 package org.apache.maven.rtinfo.internal;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.rtinfo.RuntimeInformation;
 import org.eclipse.aether.util.version.GenericVersionScheme;
 import org.eclipse.aether.version.InvalidVersionSpecificationException;

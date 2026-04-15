@@ -18,11 +18,10 @@
  */
 package org.apache.maven.model.interpolation;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.Properties;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.building.ModelBuildingRequest;
 
 /**

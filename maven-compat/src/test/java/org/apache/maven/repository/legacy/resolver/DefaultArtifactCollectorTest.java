@@ -18,8 +18,6 @@
  */
 package org.apache.maven.repository.legacy.resolver;
 
-import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;

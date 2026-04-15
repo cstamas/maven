@@ -31,6 +31,8 @@ under the License.
       <outputDirectory>lib</outputDirectory>
       <excludes>
         <exclude>org.codehaus.plexus:plexus-classworlds</exclude>
+        <exclude>javax.inject:javax.inject</exclude>
+        <exclude>javax.annotation:javax.annotation-api</exclude>
       </excludes>
     </dependencySet>
   </dependencySets>

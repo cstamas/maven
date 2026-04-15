@@ -18,11 +18,10 @@
  */
 package org.apache.maven.project.artifact;
 
-import javax.inject.Inject;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.codehaus.plexus.testing.PlexusTest;

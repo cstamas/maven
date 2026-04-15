@@ -18,14 +18,13 @@
  */
 package org.apache.maven;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;

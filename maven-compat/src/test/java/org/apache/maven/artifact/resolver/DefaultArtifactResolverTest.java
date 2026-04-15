@@ -18,10 +18,9 @@
  */
 package org.apache.maven.artifact.resolver;
 
-import javax.inject.Inject;
-
 import java.util.Collections;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.AbstractArtifactComponentTest;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.DefaultArtifactResolver.DaemonThreadCreator;

@@ -18,10 +18,6 @@
  */
 package org.apache.maven.repository.internal;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.repository.metadata.Snapshot;
 import org.apache.maven.artifact.repository.metadata.SnapshotVersion;
 import org.apache.maven.artifact.repository.metadata.Versioning;

@@ -18,12 +18,12 @@
  */
 package org.apache.maven.artifact.resolver;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * @author Benjamin Bentmann

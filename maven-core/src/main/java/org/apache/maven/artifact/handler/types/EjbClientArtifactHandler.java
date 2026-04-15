@@ -18,10 +18,9 @@
  */
 package org.apache.maven.artifact.handler.types;
 
-import javax.inject.Named;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.handler.ArtifactHandlerImpl;
 

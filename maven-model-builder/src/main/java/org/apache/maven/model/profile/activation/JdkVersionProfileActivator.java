@@ -18,14 +18,13 @@
  */
 package org.apache.maven.model.profile.activation;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.Profile;
 import org.apache.maven.model.building.ModelProblem.Severity;

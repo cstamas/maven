@@ -18,13 +18,12 @@
  */
 package org.apache.maven.internal.secdispatcher;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-
 import java.util.Map;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 import org.sonatype.plexus.components.cipher.PlexusCipher;
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.PasswordDecryptor;

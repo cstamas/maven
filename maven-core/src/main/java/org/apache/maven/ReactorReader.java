@@ -18,9 +18,6 @@
  */
 package org.apache.maven;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,6 +31,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;

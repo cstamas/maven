@@ -96,6 +96,7 @@ under the License.
 
     <!-- javax.inject (JSR-330) -->
     <exportedPackage>javax.inject.*</exportedPackage>
+    <exportedPackage>jakarta.inject.*</exportedPackage>
     <!-- javax.enterprise.inject (JSR-299): Must never be exported if needed at plugin level, plugin adds it
          there is no justification to get it at Maven level and leaking it will conflict.
     <exportedPackage>javax.enterprise.util.*</exportedPackage>
@@ -173,6 +174,7 @@ under the License.
 
     <exportedArtifact>javax.inject:javax.inject</exportedArtifact>
     <exportedArtifact>javax.annotation:javax.annotation-api</exportedArtifact>
+    <exportedArtifact>jakarta.inject:jakarta.inject-api</exportedArtifact>
     <exportedArtifact>org.slf4j:slf4j-api</exportedArtifact>
     <exportedArtifact>org.fusesource.jansi:jansi</exportedArtifact>
 

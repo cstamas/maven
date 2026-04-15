@@ -18,10 +18,9 @@
  */
 package org.apache.maven.artifact.deployer;
 
-import javax.inject.Inject;
-
 import java.io.File;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.AbstractArtifactComponentTest;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;

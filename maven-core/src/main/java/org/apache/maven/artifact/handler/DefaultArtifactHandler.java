@@ -18,8 +18,8 @@
  */
 package org.apache.maven.artifact.handler;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>

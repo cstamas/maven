@@ -18,12 +18,11 @@
  */
 package org.apache.maven.configuration;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
+import jakarta.inject.Inject;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.Xpp3DomBuilder;

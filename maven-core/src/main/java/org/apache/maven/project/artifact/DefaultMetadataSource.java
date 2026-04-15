@@ -18,8 +18,8 @@
  */
 package org.apache.maven.project.artifact;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * This realizes the metadata source via the default hint to provide backward-compat with Maven 2.x whose Plexus version

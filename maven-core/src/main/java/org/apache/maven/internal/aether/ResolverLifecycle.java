@@ -18,10 +18,9 @@
  */
 package org.apache.maven.internal.aether;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.sisu.EagerSingleton;
 import org.eclipse.sisu.PreDestroy;

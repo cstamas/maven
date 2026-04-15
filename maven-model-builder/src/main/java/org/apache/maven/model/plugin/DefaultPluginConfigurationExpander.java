@@ -18,11 +18,10 @@
  */
 package org.apache.maven.model.plugin;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.List;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;

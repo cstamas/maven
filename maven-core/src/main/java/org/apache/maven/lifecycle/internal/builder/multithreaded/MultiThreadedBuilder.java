@@ -18,10 +18,6 @@
  */
 package org.apache.maven.lifecycle.internal.builder.multithreaded;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +30,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.internal.BuildThreadFactory;
 import org.apache.maven.lifecycle.internal.LifecycleModuleBuilder;

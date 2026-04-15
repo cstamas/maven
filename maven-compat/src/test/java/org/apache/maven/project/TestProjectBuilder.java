@@ -18,14 +18,13 @@
  */
 package org.apache.maven.project;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Collections;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 

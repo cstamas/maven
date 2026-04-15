@@ -18,9 +18,6 @@
  */
 package org.apache.maven.internal.aether;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -33,6 +30,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.bridge.MavenRepositorySystem;

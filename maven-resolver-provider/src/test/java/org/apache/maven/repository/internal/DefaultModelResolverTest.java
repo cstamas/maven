@@ -18,11 +18,10 @@
  */
 package org.apache.maven.repository.internal;
 
-import javax.inject.Inject;
-
 import java.net.MalformedURLException;
 import java.util.Arrays;
 
+import jakarta.inject.Inject;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.resolution.ModelResolver;

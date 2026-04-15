@@ -18,12 +18,11 @@
  */
 package org.apache.maven.settings;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.repository.layout.DefaultRepositoryLayout;
 import org.apache.maven.bridge.MavenRepositorySystem;
 import org.apache.maven.model.Profile;

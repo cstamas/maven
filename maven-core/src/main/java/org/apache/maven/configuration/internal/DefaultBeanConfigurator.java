@@ -18,12 +18,11 @@
  */
 package org.apache.maven.configuration.internal;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.util.Objects;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.configuration.BeanConfigurationException;
 import org.apache.maven.configuration.BeanConfigurationPathTranslator;
 import org.apache.maven.configuration.BeanConfigurationRequest;

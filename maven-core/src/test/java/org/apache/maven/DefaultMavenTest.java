@@ -18,14 +18,13 @@
  */
 package org.apache.maven;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicReference;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.execution.MavenExecutionRequest;

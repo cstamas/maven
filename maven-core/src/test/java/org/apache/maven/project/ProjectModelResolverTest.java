@@ -18,12 +18,11 @@
  */
 package org.apache.maven.project;
 
-import javax.inject.Inject;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+import jakarta.inject.Inject;
 import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Parent;

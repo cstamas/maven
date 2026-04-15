@@ -18,12 +18,11 @@
  */
 package org.apache.maven.lifecycle;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.apache.maven.execution.ProjectExecutionEvent;
 import org.apache.maven.execution.ProjectExecutionListener;
 

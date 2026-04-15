@@ -120,8 +120,8 @@ under the License.
       <artifactId>failureaccess</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
     </dependency>
     <!-- Plexus -->
     <dependency>
