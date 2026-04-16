@@ -142,6 +142,8 @@ public class DefaultRepositorySystemSessionFactory {
      * Every filter expression may have "scope" applied, in form of {@code @G[:A]}. Presence of "scope" narrows the
      * application of filter to given G or G:A.
      * <p>
+     * In case of multiple "similar" rule scopes, user should enlist rules from "most specific" to "least specific".
+     * <p>
      * Example filter expression: <code>"h(5);s;e(1)@org.foo:bar</code> will cause:
      * <ul>
      *     <li>ranges are filtered for "top 5" (instead of full range)</li>
