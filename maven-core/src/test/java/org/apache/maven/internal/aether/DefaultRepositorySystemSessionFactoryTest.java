@@ -86,7 +86,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
         assertNotNull(vf);
         assertInstanceOf(HighestVersionFilter.class, vf);
 
-        vf = factory.buildVersionFilter("h(1@group)");
+        vf = factory.buildVersionFilter("h(1)@group");
         assertNotNull(vf);
         // assertInstanceOf(HighestVersionFilter.class, vf); // this is wrapped instance
     }
@@ -98,7 +98,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterHLFuncMiss() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("h(2@group)");
+        vf = factory.buildVersionFilter("h(2)@group");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -120,7 +120,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterHLFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("h(2@group)");
+        vf = factory.buildVersionFilter("h(2)@group");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -144,7 +144,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterLowestFuncMiss() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("l(2@group)");
+        vf = factory.buildVersionFilter("l(2)@group");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -166,7 +166,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterLowestFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("l(2@group)");
+        vf = factory.buildVersionFilter("l(2)@group");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -187,7 +187,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterExcludeFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("e(group:a:[1.1,2.0))");
+        vf = factory.buildVersionFilter("e([1.1,2.0))@group:a");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"), version("2.0"));
@@ -208,7 +208,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterIncludeFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("i(group:a:[1.1,),[2.0,))");
+        vf = factory.buildVersionFilter("i([1.1,),[2.0,))@group:a");
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"), version("2.0"));
