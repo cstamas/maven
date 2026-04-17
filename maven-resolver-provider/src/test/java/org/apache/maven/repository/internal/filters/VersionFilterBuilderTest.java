@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.internal.aether;
+package org.apache.maven.repository.internal.filters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +34,7 @@ import org.eclipse.aether.util.graph.version.HighestVersionFilter;
 import org.eclipse.aether.util.version.GenericVersionScheme;
 import org.eclipse.aether.version.InvalidVersionSpecificationException;
 import org.eclipse.aether.version.Version;
+import org.eclipse.aether.version.VersionConstraint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,18 +44,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
-/**
- * UT for {@link DefaultRepositorySystemSessionFactory}.
- */
-public class DefaultRepositorySystemSessionFactoryTest {
+public class VersionFilterBuilderTest {
     final GenericVersionScheme versionScheme = new GenericVersionScheme();
     RepositorySystemSession session;
-    DefaultRepositorySystemSessionFactory factory;
+    VersionFilterBuilder factory;
 
     @BeforeEach
     public void prepare() {
         session = mock(RepositorySystemSession.class);
-        factory = new DefaultRepositorySystemSessionFactory();
+        factory = new VersionFilterBuilder();
     }
 
     private Version version(String spec) {
@@ -65,11 +63,20 @@ public class DefaultRepositorySystemSessionFactoryTest {
         }
     }
 
+    private VersionConstraint versionConstraint(String spec) {
+        try {
+            return versionScheme.parseVersionConstraint(spec);
+        } catch (InvalidVersionSpecificationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void versionFilterUnsupportedExpression() {
         // null and empty string are OK
-        assertThrows(IllegalArgumentException.class, () -> factory.buildVersionFilter("[*"));
-        assertThrows(IllegalArgumentException.class, () -> factory.buildVersionFilter("foobar"));
+        assertThrows(IllegalArgumentException.class, () -> factory.buildVersionFilter("[*", this::versionConstraint));
+        assertThrows(
+                IllegalArgumentException.class, () -> factory.buildVersionFilter("foobar", this::versionConstraint));
     }
 
     /**
@@ -78,15 +85,15 @@ public class DefaultRepositorySystemSessionFactoryTest {
     @Test
     public void versionFilterHighest() {
         VersionFilter vf;
-        vf = factory.buildVersionFilter("h");
+        vf = factory.buildVersionFilter("h", this::versionConstraint).orElse(null);
         assertNotNull(vf);
         assertInstanceOf(HighestVersionFilter.class, vf);
 
-        vf = factory.buildVersionFilter("h(5)");
+        vf = factory.buildVersionFilter("h(5)", this::versionConstraint).orElse(null);
         assertNotNull(vf);
         assertInstanceOf(HighestVersionFilter.class, vf);
 
-        vf = factory.buildVersionFilter("h(1)@group");
+        vf = factory.buildVersionFilter("h(1)@group", this::versionConstraint).orElse(null);
         assertNotNull(vf);
         // assertInstanceOf(HighestVersionFilter.class, vf); // this is wrapped instance
     }
@@ -98,7 +105,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterHLFuncMiss() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("h(2)@group");
+        vf = factory.buildVersionFilter("h(2)@group", this::versionConstraint).orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -120,7 +127,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterHLFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("h(2)@group");
+        vf = factory.buildVersionFilter("h(2)@group", this::versionConstraint).orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -144,7 +151,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterLowestFuncMiss() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("l(2)@group");
+        vf = factory.buildVersionFilter("l(2)@group", this::versionConstraint).orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -166,7 +173,7 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterLowestFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("l(2)@group");
+        vf = factory.buildVersionFilter("l(2)@group", this::versionConstraint).orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"));
@@ -187,7 +194,8 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterExcludeFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("e([1.1,2.0))@group:a");
+        vf = factory.buildVersionFilter("e([1.1,2.0))@group:a", this::versionConstraint)
+                .orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"), version("2.0"));
@@ -208,7 +216,8 @@ public class DefaultRepositorySystemSessionFactoryTest {
     public void versionFilterIncludeFuncHit() throws RepositoryException {
         VersionFilter vf;
 
-        vf = factory.buildVersionFilter("i([1.1,),[2.0,))@group:a");
+        vf = factory.buildVersionFilter("i([1.1,),[2.0,))@group:a", this::versionConstraint)
+                .orElse(null);
         assertNotNull(vf);
 
         List<Version> versions = Arrays.asList(version("1.0"), version("1.1"), version("1.2"), version("2.0"));
