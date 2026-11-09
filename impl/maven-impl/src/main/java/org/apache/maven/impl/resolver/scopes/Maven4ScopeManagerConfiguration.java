@@ -21,8 +21,9 @@ package org.apache.maven.impl.resolver.scopes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.maven.api.DependencyScope;
 import org.apache.maven.impl.resolver.artifact.MavenArtifactProperties;
@@ -86,43 +87,35 @@ public final class Maven4ScopeManagerConfiguration implements ScopeManagerConfig
     public Collection<org.eclipse.aether.scope.DependencyScope> buildDependencyScopes(
             InternalScopeManager internalScopeManager) {
         ArrayList<org.eclipse.aether.scope.DependencyScope> result = new ArrayList<>();
+        result.add(internalScopeManager.createDependencyScope(DependencyScope.NONE.id(), false, Set.of()));
         result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.COMPILE.id(), DependencyScope.COMPILE.isTransitive(), all()));
+                DependencyScope.COMPILE_ONLY.id(),
+                false,
+                singleton(CommonBuilds.PROJECT_PATH_MAIN, CommonBuilds.BUILD_PATH_COMPILE)));
+        result.add(internalScopeManager.createDependencyScope(DependencyScope.COMPILE.id(), true, all()));
         result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.RUNTIME.id(),
-                DependencyScope.RUNTIME.isTransitive(),
-                byBuildPath(CommonBuilds.BUILD_PATH_RUNTIME)));
+                DependencyScope.RUNTIME.id(), true, byBuildPath(CommonBuilds.BUILD_PATH_RUNTIME)));
+        result.add(internalScopeManager.createDependencyScope(DependencyScope.IMPLEMENTATION.id(), true, all()));
         result.add(internalScopeManager.createDependencyScope(
                 DependencyScope.PROVIDED.id(),
-                DependencyScope.PROVIDED.isTransitive(),
+                false,
                 union(
                         byBuildPath(CommonBuilds.BUILD_PATH_COMPILE),
                         select(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_RUNTIME))));
         result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.TEST.id(),
-                DependencyScope.TEST.isTransitive(),
-                byProjectPath(CommonBuilds.PROJECT_PATH_TEST)));
+                DependencyScope.TEST_ONLY.id(),
+                false,
+                singleton(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_COMPILE)));
         result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.NONE.id(), DependencyScope.NONE.isTransitive(), Collections.emptySet()));
-        result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.COMPILE_ONLY.id(),
-                DependencyScope.COMPILE_ONLY.isTransitive(),
-                singleton(CommonBuilds.PROJECT_PATH_MAIN, CommonBuilds.BUILD_PATH_COMPILE)));
+                DependencyScope.TEST.id(), false, byProjectPath(CommonBuilds.PROJECT_PATH_TEST)));
         result.add(internalScopeManager.createDependencyScope(
                 DependencyScope.TEST_RUNTIME.id(),
-                DependencyScope.TEST_RUNTIME.isTransitive(),
+                false,
                 singleton(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_RUNTIME)));
-        result.add(internalScopeManager.createDependencyScope(
-                DependencyScope.TEST_ONLY.id(),
-                DependencyScope.TEST_ONLY.isTransitive(),
-                singleton(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_COMPILE)));
 
         // system
         result.add(internalScopeManager.createSystemDependencyScope(
-                DependencyScope.SYSTEM.id(),
-                DependencyScope.SYSTEM.isTransitive(),
-                all(),
-                MavenArtifactProperties.LOCAL_PATH));
+                DependencyScope.SYSTEM.id(), false, all(), MavenArtifactProperties.LOCAL_PATH));
 
         // == sanity check
         if (result.size() != DependencyScope.values().length - 1) { // sans "undefined"
@@ -137,55 +130,63 @@ public final class Maven4ScopeManagerConfiguration implements ScopeManagerConfig
             InternalScopeManager internalScopeManager) {
         Collection<org.eclipse.aether.scope.DependencyScope> allDependencyScopes =
                 internalScopeManager.getDependencyScopeUniverse();
-        Collection<org.eclipse.aether.scope.DependencyScope> nonTransitiveDependencyScopes =
-                allDependencyScopes.stream().filter(s -> !s.isTransitive()).collect(Collectors.toSet());
+
+        // dep scope: implementation (mandatory)
+        org.eclipse.aether.scope.DependencyScope implementation = internalScopeManager
+                .getDependencyScope(DependencyScope.IMPLEMENTATION.id())
+                .orElseThrow();
+        // dep scope: system (optional)
         org.eclipse.aether.scope.DependencyScope system = internalScopeManager
                 .getDependencyScope(DependencyScope.SYSTEM.id())
                 .orElse(null);
 
+        // all as before
+        Collection<org.eclipse.aether.scope.DependencyScope> nonTransitiveRuntimeDependencyScopes =
+                allDependencyScopes.stream().filter(s -> !s.isTransitive()).collect(Collectors.toSet());
+        // special case: all above + implementation
+        Collection<org.eclipse.aether.scope.DependencyScope> nonTransitiveCompileDependencyScopes = Stream.concat(
+                        nonTransitiveRuntimeDependencyScopes.stream(), Stream.of(implementation))
+                .toList();
+
         ArrayList<org.eclipse.aether.scope.ResolutionScope> result = new ArrayList<>();
         result.add(internalScopeManager.createResolutionScope(
-                RS_NONE,
-                InternalScopeManager.Mode.REMOVE,
-                Collections.emptySet(),
-                Collections.emptySet(),
-                allDependencyScopes));
+                RS_NONE, InternalScopeManager.Mode.REMOVE, Set.of(), Set.of(), allDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_MAIN_COMPILE,
                 InternalScopeManager.Mode.ELIMINATE,
                 singleton(CommonBuilds.PROJECT_PATH_MAIN, CommonBuilds.BUILD_PATH_COMPILE),
-                Collections.singletonList(system),
-                nonTransitiveDependencyScopes));
+                system != null ? Set.of(system, implementation) : Set.of(implementation),
+                nonTransitiveCompileDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_MAIN_COMPILE_PLUS_RUNTIME,
                 InternalScopeManager.Mode.ELIMINATE,
                 byProjectPath(CommonBuilds.PROJECT_PATH_MAIN),
-                Collections.singletonList(system),
-                nonTransitiveDependencyScopes));
+                system != null ? Set.of(system) : Set.of(),
+                nonTransitiveRuntimeDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_MAIN_RUNTIME,
                 InternalScopeManager.Mode.REMOVE,
                 singleton(CommonBuilds.PROJECT_PATH_MAIN, CommonBuilds.BUILD_PATH_RUNTIME),
-                Collections.emptySet(),
-                nonTransitiveDependencyScopes));
+                Set.of(),
+                nonTransitiveRuntimeDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_MAIN_RUNTIME_PLUS_SYSTEM,
                 InternalScopeManager.Mode.REMOVE,
                 singleton(CommonBuilds.PROJECT_PATH_MAIN, CommonBuilds.BUILD_PATH_RUNTIME),
-                Collections.singletonList(system),
-                nonTransitiveDependencyScopes));
+                system != null ? Set.of(system) : Set.of(),
+                nonTransitiveRuntimeDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_TEST_COMPILE,
                 InternalScopeManager.Mode.ELIMINATE,
                 select(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_COMPILE),
-                Collections.singletonList(system),
-                nonTransitiveDependencyScopes));
+                system != null ? Set.of(system) : Set.of(),
+                nonTransitiveCompileDependencyScopes));
         result.add(internalScopeManager.createResolutionScope(
                 RS_TEST_RUNTIME,
                 InternalScopeManager.Mode.ELIMINATE,
                 select(CommonBuilds.PROJECT_PATH_TEST, CommonBuilds.BUILD_PATH_RUNTIME),
-                Collections.singletonList(system),
-                nonTransitiveDependencyScopes));
+                system != null ? Set.of(system) : Set.of(),
+                nonTransitiveRuntimeDependencyScopes));
         return result;
     }
 

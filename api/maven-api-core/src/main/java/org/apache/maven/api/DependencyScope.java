@@ -37,8 +37,7 @@ import org.apache.maven.api.annotations.Nonnull;
  * Each scope controls which {@link PathScope} classpaths the dependency appears on
  * (see {@link PathScope#MAIN_COMPILE}, {@link PathScope#MAIN_RUNTIME},
  * {@link PathScope#TEST_COMPILE}, {@link PathScope#TEST_RUNTIME}),
- * and whether the dependency is propagated transitively to downstream projects
- * (see {@link #isTransitive()}).
+ * and whether the dependency is propagated transitively to downstream projects.
  * <p>
  * When resolving the transitive graph of a dependency, the effective scope of its transitive
  * dependencies may be narrowed. In particular, transitive {@code compile} and {@code runtime}
@@ -58,7 +57,7 @@ public enum DependencyScope {
      * None. Allows you to declare dependencies (for example to alter reactor build order) but in reality dependencies
      * in this scope are not part of any path scope.
      */
-    NONE("none", false),
+    NONE("none"),
 
     /**
      * Undefined. When no scope is explicitly given, UNDEFINED will be used, but its meaning will depend on
@@ -66,7 +65,7 @@ public enum DependencyScope {
      * explicitly managed by this managed dependency, or as a real dependency, in which case, the scope
      * will default to {@link #COMPILE}.
      */
-    UNDEFINED("", false),
+    UNDEFINED(""),
 
     /**
      * Compile only.
@@ -75,7 +74,7 @@ public enum DependencyScope {
      * compile classpath. It is not available on the main runtime, test compile, or test runtime
      * classpaths.
      */
-    COMPILE_ONLY("compile-only", false),
+    COMPILE_ONLY("compile-only"),
 
     /**
      * Compile.
@@ -83,7 +82,7 @@ public enum DependencyScope {
      * A dependency required for compiling, testing, and running the project.
      * Dependencies in this scope are available on all classpaths and are transitive.
      */
-    COMPILE("compile", true),
+    COMPILE("compile"),
 
     /**
      * Runtime.
@@ -93,7 +92,17 @@ public enum DependencyScope {
      * and test runtime classpaths, but not on the main compile or test compile classpaths.
      * Dependencies in this scope are transitive.
      */
-    RUNTIME("runtime", true),
+    RUNTIME("runtime"),
+
+    /**
+     * Implementation.
+     * <p>
+     * A dependency required for compiling the project source code, required for executing
+     * the project and running tests. But, dependencies of this scope are not available on the main compile
+     * classpaths, when used as transitive dependencies.
+     * Dependencies in this scope are transitive (resolution scope dependant; compile not transitive, runtime transitive).
+     */
+    IMPLEMENTATION("implementation"),
 
     /**
      * Provided.
@@ -103,14 +112,14 @@ public enum DependencyScope {
      * the main compile, test compile, and test runtime classpaths, but not on the main runtime
      * classpath. Dependencies in this scope are not transitive to downstream projects.
      */
-    PROVIDED("provided", false),
+    PROVIDED("provided"),
 
     /**
      * Test compile only.
      * <p>
      * A dependency required only for compiling the test sources, but not needed for running tests.
      */
-    TEST_ONLY("test-only", false),
+    TEST_ONLY("test-only"),
 
     /**
      * Test.
@@ -118,14 +127,14 @@ public enum DependencyScope {
      * A dependency required for compiling and running tests, but not required for compiling or
      * running the main project code. Dependencies in this scope are not transitive.
      */
-    TEST("test", false),
+    TEST("test"),
 
     /**
      * Test runtime.
      * <p>
      * A dependency not required for compiling test sources, but required for executing tests.
      */
-    TEST_RUNTIME("test-runtime", false),
+    TEST_RUNTIME("test-runtime"),
 
     /**
      * System.
@@ -133,7 +142,7 @@ public enum DependencyScope {
      * Similar to {@link #PROVIDED}, but the artifact is bound to an explicit path on the local file system
      * rather than resolved from a repository.
      */
-    SYSTEM("system", false);
+    SYSTEM("system");
 
     private static final Map<String, DependencyScope> IDS = Collections.unmodifiableMap(
             Stream.of(DependencyScope.values()).collect(Collectors.toMap(s -> s.id, s -> s)));
@@ -150,11 +159,9 @@ public enum DependencyScope {
     }
 
     private final String id;
-    private final boolean transitive;
 
-    DependencyScope(String id, boolean transitive) {
+    DependencyScope(String id) {
         this.id = id;
-        this.transitive = transitive;
     }
 
     /**
@@ -166,13 +173,6 @@ public enum DependencyScope {
     @Nonnull
     public String id() {
         return id;
-    }
-
-    /**
-     * {@return whether dependencies in this scope are included transitively}.
-     */
-    public boolean isTransitive() {
-        return transitive;
     }
 
     /**
